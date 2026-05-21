@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知識庫 · Repo HHC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F4EF;--surface:#fff;
+  --tp:#2C2A26;--ts:#7A7670;--tm:#B0ADA6;
+  --bd:rgba(44,42,38,.10);--bdh:rgba(44,42,38,.22);
+  --k-bg:#F0EAF8;--k-ac:#534AB7;--k-soft:#CECBF6;
+  --rad:20px;--radi:12px;
+  --sh:0 2px 16px rgba(44,42,38,.07),0 1px 3px rgba(44,42,38,.04);
+  --shh:0 8px 32px rgba(44,42,38,.13),0 2px 8px rgba(44,42,38,.06);
+  --t:.22s cubic-bezier(.4,0,.2,1)
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tp);min-height:100vh;padding-bottom:4rem}
+
+/* BANNER */
+.banner{background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);padding:0 2rem;height:64px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
+.b-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#AFA9EC,#5DCAA5);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-weight:600;font-size:12px;color:#fff;flex-shrink:0}
+.b-title{font-family:'Lora',serif;font-size:16px;font-weight:600}
+.b-sep{color:var(--tm);font-size:14px}
+.b-cur{font-size:14px;color:var(--ts)}
+
+/* HERO */
+.hero{padding:3rem 1.5rem 2rem;max-width:860px;margin:0 auto}
+.hero-icon{width:56px;height:56px;border-radius:18px;background:var(--k-bg);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:1.2rem}
+.hero h1{font-family:'Lora',serif;font-size:28px;font-weight:600;letter-spacing:-.02em;margin-bottom:.4rem}
+.hero p{font-size:14px;color:var(--ts);line-height:1.6;max-width:520px}
+
+/* SEARCH */
+.search-wrap{max-width:860px;margin:0 auto;padding:0 1.5rem 1.5rem}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--bd);border-radius:var(--radi);padding:0 16px;height:44px;transition:border-color var(--t)}
+.search-box:focus-within{border-color:var(--bdh)}
+.search-box input{flex:1;border:none;outline:none;font-size:14px;font-family:'DM Sans',sans-serif;background:transparent;color:var(--tp)}
+.search-box input::placeholder{color:var(--tm)}
+.search-ico{font-size:16px;color:var(--tm)}
+
+/* CONTENT */
+.content{max-width:860px;margin:0 auto;padding:0 1.5rem}
+
+/* CATEGORY SECTION */
+.cat-section{margin-bottom:2.5rem}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.cat-icon{width:36px;height:36px;border-radius:10px;background:var(--k-bg);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.cat-name{font-family:'Lora',serif;font-size:17px;font-weight:600}
+.cat-count{font-size:12px;color:var(--tm);padding:2px 8px;border-radius:10px;border:1px solid var(--bd);background:var(--bg)}
+
+/* FILE CARDS */
+.file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.75rem}
+.file-card{background:var(--surface);border:1px solid var(--bd);border-radius:var(--radi);padding:1rem 1.1rem;text-decoration:none;color:inherit;display:flex;align-items:flex-start;gap:10px;transition:box-shadow var(--t),transform var(--t),border-color var(--t)}
+.file-card:hover{box-shadow:var(--shh);transform:translateY(-2px);border-color:var(--k-soft)}
+.file-card-ico{width:36px;height:36px;border-radius:10px;background:var(--k-bg);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;margin-top:1px}
+.file-card-body{flex:1;min-width:0}
+.file-card-title{font-size:14px;font-weight:500;color:var(--tp);line-height:1.3;margin-bottom:3px}
+.file-card-sub{font-size:11.5px;color:var(--tm);line-height:1.4}
+.file-card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.file-tag{font-size:11px;padding:2px 7px;border-radius:8px;background:var(--k-bg);color:var(--k-ac)}
+.file-card-arrow{font-size:13px;color:var(--tm);opacity:0;transition:opacity var(--t),transform var(--t);align-self:center;flex-shrink:0}
+.file-card:hover .file-card-arrow{opacity:1;transform:translateX(2px)}
+
+/* EMPTY / LOADING */
+.state-msg{text-align:center;padding:3rem 1rem;color:var(--tm);font-size:14px}
+
+/* NO RESULTS */
+.no-results{display:none;text-align:center;padding:2rem;color:var(--tm);font-size:14px}
+.no-results.on{display:block}
+
+@media(max-width:600px){
+  .banner{padding:0 1rem}
+  .hero{padding:2rem 1rem 1.5rem}
+  .search-wrap,.content{padding:0 1rem}
+  .hero h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<header class="banner">
+  <div class="b-av">HH</div>
+  <div class="b-title">Repo HHC</div>
+  <span class="b-sep">/</span>
+  <span class="b-cur">知識庫</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-icon">📚</div>
+  <h1>知識庫 Knowledge Base</h1>
+  <p>HHC 的公開知識彙整，持續更新中。點擊任一文件即可閱讀，無需密碼。</p>
+</section>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-ico">🔍</span>
+    <input type="text" id="searchIn" placeholder="搜尋文件名稱、描述或標籤…" oninput="filterCards()">
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="content">
+  <div class="state-msg" id="loadMsg">載入中…</div>
+</div>
+<div class="content">
+  <div class="no-results" id="noResults">找不到符合「<span id="kw"></span>」的文件</div>
+</div>
+
+<footer style="text-align:center;margin-top:2rem;font-size:12px;color:var(--tm);font-weight:300">
+  Repo HHC · Knowledge Base · 2026
+</footer>
+
+<script>
+// 讀取 knowledge.json 並渲染
+async function load() {
+  try {
+    const res = await fetch('./knowledge.json?_=' + Date.now());
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    render(data);
+  } catch(e) {
+    document.getElementById('loadMsg').textContent = '無法載入知識庫目錄，請稍後再試。';
+  }
+}
+
+let ALL_CARDS = []; // 存所有渲染後的 card 元素，供搜尋用
+
+function render(data) {
+  const ct = document.getElementById('content');
+  ct.innerHTML = '';
+  ALL_CARDS = [];
+
+  if (!data.categories || data.categories.length === 0) {
+    ct.innerHTML = '<div class="state-msg">尚無文件。</div>';
+    return;
+  }
+
+  data.categories.forEach(cat => {
+    if (!cat.files || cat.files.length === 0) return;
+
+    const sec = document.createElement('div');
+    sec.className = 'cat-section';
+    sec.dataset.cat = cat.name;
+
+    sec.innerHTML = `
+      <div class="cat-header">
+        <div class="cat-icon">${cat.icon || '📄'}</div>
+        <span class="cat-name">${cat.name}</span>
+        <span class="cat-count">${cat.files.length} 篇</span>
+      </div>
+      <div class="file-grid" id="grid-${cat.id}"></div>
+    `;
+    ct.appendChild(sec);
+
+    const grid = sec.querySelector('.file-grid');
+    cat.files.forEach(f => {
+      const card = document.createElement('a');
+      card.className = 'file-card';
+      card.href = f.path;
+      card.target = '_blank';
+      card.dataset.search = [f.title, f.desc||'', (f.tags||[]).join(' ')].join(' ').toLowerCase();
+
+      const tagsHtml = (f.tags||[]).map(t=>`<span class="file-tag">${t}</span>`).join('');
+      card.innerHTML = `
+        <div class="file-card-ico">${f.icon || cat.icon || '📄'}</div>
+        <div class="file-card-body">
+          <div class="file-card-title">${f.title}</div>
+          ${f.desc ? `<div class="file-card-sub">${f.desc}</div>` : ''}
+          ${tagsHtml ? `<div class="file-card-tags">${tagsHtml}</div>` : ''}
+        </div>
+        <span class="file-card-arrow">→</span>
+      `;
+      grid.appendChild(card);
+      ALL_CARDS.push(card);
+    });
+  });
+}
+
+function filterCards() {
+  const kw = document.getElementById('searchIn').value.trim().toLowerCase();
+  document.getElementById('kw').textContent = kw;
+  let anyVisible = false;
+
+  ALL_CARDS.forEach(card => {
+    const match = !kw || card.dataset.search.includes(kw);
+    card.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+  });
+
+  // 隱藏空的 category section
+  document.querySelectorAll('.cat-section').forEach(sec => {
+    const visible = [...sec.querySelectorAll('.file-card')].some(c => c.style.display !== 'none');
+    sec.style.display = visible ? '' : 'none';
+  });
+
+  document.getElementById('noResults').classList.toggle('on', kw && !anyVisible);
+}
+
+load();
+</script>
+</body>
+</html>
