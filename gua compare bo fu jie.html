@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三卦比較：山地剝 × 地雷復 × 雷水解</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FAF7F2;--parchment:#F5EFE6;--sand:#EDE3D4;--sand-dk:#D9CCBA;
+  --bark:#A89278;--earth:#7D6B57;--moss:#5C7A4A;--moss-pale:#EEF4E7;
+  --rust:#B5714A;--rust-pale:#F7EDE5;--slate:#6B7E8A;--slate-pale:#EDF2F5;
+  --amber:#C4963A;--amber-pale:#FBF5E8;--indigo:#7A8BA8;--indigo-pale:#EDF0F7;
+  --ink:#3A3228;--ink-mid:#5C5248;--ink-lt:#9C9088;
+  --divider:#DDD4C8;--warm-white:#FDFBF8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-weight:300;font-size:14px;line-height:1.8;padding:0 16px 60px}
+.page{max-width:960px;margin:0 auto}
+h1{font-family:'Noto Serif TC',serif;font-size:1.5rem;font-weight:600;color:var(--ink);text-align:center;padding:40px 0 6px;letter-spacing:.06em}
+.sub{text-align:center;font-size:13px;color:var(--ink-lt);margin-bottom:32px;letter-spacing:.1em}
+/* 卦頭 */
+.gua-head{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-bottom:6px;align-items:end}
+.gh-empty{}
+.gh{border-radius:10px;padding:12px;text-align:center}
+.gh-num{font-size:11px;color:var(--ink-lt);margin-bottom:2px;letter-spacing:.1em}
+.gh-sym{font-size:22px;margin-bottom:2px}
+.gh-name{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.gh-sub{font-size:11px;color:var(--ink-lt);line-height:1.5}
+.gh-bad{background:var(--rust-pale);border-top:3px solid var(--rust)}
+.gh-good{background:var(--moss-pale);border-top:3px solid var(--moss)}
+.gh-warn{background:var(--amber-pale);border-top:3px solid var(--amber)}
+/* 爻行 */
+.yao-row{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:6px;margin-bottom:5px;align-items:start}
+.yao-lbl{font-size:12px;font-weight:500;color:var(--ink-lt);text-align:right;padding:8px 8px 0 0;line-height:1.3}
+.yao-lbl.yang{color:var(--rust);font-weight:600}
+.yao-lbl.yang-g{color:var(--moss);font-weight:600}
+.yao-cell{border-radius:7px;padding:8px 10px;font-size:12px;line-height:1.6;border:.5px solid}
+.ci{font-family:'Noto Serif TC',serif;font-weight:500;color:var(--ink);margin-bottom:3px;font-size:12px;letter-spacing:.02em}
+.yi{color:var(--ink-mid);font-size:11px;line-height:1.55}
+.c-bad{background:var(--rust-pale);border-color:#E0A080}
+.c-good{background:var(--moss-pale);border-color:#8CB85A}
+.c-warn{background:var(--amber-pale);border-color:#D4B060}
+.c-key{background:var(--indigo-pale);border-color:#A0B0CC}
+.c-neu{background:var(--warm-white);border-color:var(--sand-dk)}
+/* 區塊標題 */
+.sec{font-size:11px;font-weight:500;color:var(--ink-lt);letter-spacing:.12em;text-transform:uppercase;margin:2rem 0 .8rem;padding-top:1.2rem;border-top:1px solid var(--divider)}
+/* 比較表 */
+.tbl-wrap{overflow-x:auto;margin-bottom:1.2rem}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{background:var(--parchment);color:var(--earth);font-weight:500;padding:8px 10px;text-align:left;border-bottom:1.5px solid var(--sand-dk);white-space:nowrap;letter-spacing:.03em}
+tbody td{padding:8px 10px;border-bottom:1px solid var(--sand);color:var(--ink-mid);vertical-align:top;line-height:1.65}
+tbody tr:nth-child(even) td{background:var(--warm-white)}
+tbody tr:hover td{background:var(--parchment)}
+strong{color:var(--ink)}
+/* 流動圖 */
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:1rem 0}
+.flow-node{background:var(--warm-white);border:.5px solid var(--sand-dk);border-radius:8px;padding:10px 14px;text-align:center;flex:1;min-width:80px}
+.fn-name{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:600;color:var(--ink)}
+.fn-tag{font-size:11px;margin-top:2px}
+.fn-desc{font-size:10px;color:var(--ink-lt);margin-top:2px}
+.flow-arr{color:var(--sand-dk);font-size:18px;flex-shrink:0}
+/* 筆記框 */
+.note{background:var(--slate-pale);border-left:3px solid var(--slate);border-radius:0 7px 7px 0;padding:12px 16px;font-size:13px;color:var(--slate);font-style:italic;line-height:1.7;margin:.8rem 0}
+.note-amber{background:var(--amber-pale);border-left:3px solid var(--amber);border-radius:0 7px 7px 0;padding:12px 16px;font-size:13px;color:var(--amber);line-height:1.7;margin:.8rem 0}
+/* 特殊關係框 */
+.mirror-box{background:var(--warm-white);border:.5px solid var(--sand-dk);border-radius:10px;padding:20px 24px;margin:1rem 0;display:grid;grid-template-columns:1fr 40px 1fr;gap:12px;align-items:center}
+.mb-side{text-align:center}
+.mb-gua{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.mb-yao{font-size:12px;color:var(--ink-lt);margin-bottom:4px}
+.mb-ci{font-size:13px;color:var(--ink-mid);font-style:italic}
+.mb-arrow{text-align:center;font-size:22px;color:var(--sand-dk)}
+.mantra{background:linear-gradient(135deg,var(--earth) 0%,var(--ink) 100%);border-radius:10px;padding:28px 24px;margin:2rem 0;text-align:center}
+.mantra p{font-family:'Noto Serif TC',serif;font-size:1.15rem;font-weight:500;color:#F5EFE6;letter-spacing:.1em;line-height:1.9}
+@media(max-width:600px){
+  .gua-head,.yao-row{grid-template-columns:50px 1fr 1fr 1fr}
+  .gh-sub{display:none}
+  .mirror-box{grid-template-columns:1fr 24px 1fr}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>三卦爻辭比較與深解</h1>
+<p class="sub">山地剝（第23卦）× 地雷復（第24卦）× 雷水解（第40卦）</p>
+
+<!-- ── 卦頭 ── -->
+<div class="gua-head">
+  <div class="gh-empty"></div>
+  <div class="gh gh-bad">
+    <div class="gh-num">第 23 卦</div>
+    <div class="gh-sym">☷☶</div>
+    <div class="gh-name">山地剝</div>
+    <div class="gh-sub">上坤（地）下艮（山）<br>五陰一陽 · 陰極之象</div>
+  </div>
+  <div class="gh gh-good">
+    <div class="gh-num">第 24 卦</div>
+    <div class="gh-sym">☷☳</div>
+    <div class="gh-name">地雷復</div>
+    <div class="gh-sub">上坤（地）下震（雷）<br>五陰一陽 · 陽始之象</div>
+  </div>
+  <div class="gh gh-warn">
+    <div class="gh-num">第 40 卦</div>
+    <div class="gh-sym">☳☵</div>
+    <div class="gh-name">雷水解</div>
+    <div class="gh-sub">上震（雷）下坎（水）<br>雷雨並作 · 鬱結宣洩</div>
+  </div>
+</div>
+
+<!-- ── 上九/上六 ── -->
+<div class="yao-row">
+  <div class="yao-lbl yang">上九<br>上六</div>
+  <div class="yao-cell c-key">
+    <div class="ci">碩果不食，君子得輿，小人剝廬</div>
+    <div class="yi">唯一陽爻，全卦核心。留住種子者得助，貪戀舊制者自毀房屋。剝極而復的生機在此爻。守住這顆果，就是守住來年的一切。</div>
+  </div>
+  <div class="yao-cell c-bad">
+    <div class="ci">迷復，凶，有災眚；用行師，終有大敗；以其國君，凶；至於十年，不克征</div>
+    <div class="yi">復而迷失方向，凶。上六居頂卻陰柔，不知一陽已回，反而向外強行出征。是復卦中唯一凶爻——警示「不知返」的代價。</div>
+  </div>
+  <div class="yao-cell c-good">
+    <div class="ci">公用射隼于高墉之上，獲之，無不利</div>
+    <div class="yi">在城牆高處射落隼鳥（頑強的障礙），獲之無不利。解卦至此，最後的阻礙被清除，全局徹底解開。上六為陰，雖非陽爻，但居解卦最高位完成最後清掃，象徵大功告成。</div>
+  </div>
+</div>
+
+<!-- ── 六五 ── -->
+<div class="yao-row">
+  <div class="yao-lbl">六五</div>
+  <div class="yao-cell c-key">
+    <div class="ci">貫魚，以宮人寵，無不利</div>
+    <div class="yi">以柔順、有序的方式（如串魚般連貫）呈現自己，得到信任與寵愛，無往不利。剝卦中最重要的正面爻——「呈現」而非「攻擊」，「連貫」而非「一次全倒」。</div>
+  </div>
+  <div class="yao-cell c-good">
+    <div class="ci">敦復，無悔</div>
+    <div class="yi">以踏實厚道的心回歸，無悔。是復卦中最穩定、最安心的一爻。不炫耀、不急進，踏實地回到正軌，正是復卦最美的樣子。</div>
+  </div>
+  <div class="yao-cell c-good">
+    <div class="ci">君子維有解，吉；有孚于小人</div>
+    <div class="yi">君子持誠信以化解矛盾，連小人都受感化，吉。解卦對人際關係最有利的一爻。不用強行，用真實與誠信自然化解對立。</div>
+  </div>
+</div>
+
+<!-- ── 六四 ── -->
+<div class="yao-row">
+  <div class="yao-lbl">六四</div>
+  <div class="yao-cell c-bad">
+    <div class="ci">剝床以膚，凶</div>
+    <div class="yi">剝落已傷及人的肌膚本身，最危險的一爻。床已不存，人身受損。這是剝卦從外到內、傷害最直接的一層，對應三線同壓快撐不住的狀態。但六五就在前面。</div>
+  </div>
+  <div class="yao-cell c-neu">
+    <div class="ci">中行獨復</div>
+    <div class="yi">在眾陰之中獨自堅持回歸正道，雖然孤獨，但方向是對的。這一爻說的是：周圍的人都沒有在回頭，但你一個人守著那條正確的路，這本身就已足夠。</div>
+  </div>
+  <div class="yao-cell c-warn">
+    <div class="ci">解而拇，朋至斯孚</div>
+    <div class="yi">先解開腳上的拇指（最近的牽絆、小人），朋友才能真正到來並產生信任。這一爻說的是：要先清除不必要的依附，真實的連結才能發生。</div>
+  </div>
+</div>
+
+<!-- ── 六三 ── -->
+<div class="yao-row">
+  <div class="yao-lbl">六三</div>
+  <div class="yao-cell c-neu">
+    <div class="ci">剝之，無咎</div>
+    <div class="yi">在剝的中央，若能保持中立不偏、不強爭、不激烈反應，反而無咎。是剝卦六爻中唯一沒有「凶」字的爻——說明在最大壓力的正中心，「不動」反而是最好的應對。</div>
+  </div>
+  <div class="yao-cell c-warn">
+    <div class="ci">頻復，厲，無咎</div>
+    <div class="yi">反覆回頭、搖擺不定，雖有危厲，但仍無咎。說明人在回歸正道的過程中反覆是正常的，不必因自己的動搖而自責，最終歸正即是。</div>
+  </div>
+  <div class="yao-cell c-bad">
+    <div class="ci">負且乘，致寇至，貞吝</div>
+    <div class="yi">背負重擔卻強坐在高位（身份不符），必招來劫掠。六三陰爻居陽位，身份錯位。警示：若在解卦時期自高其位、強佔不屬於自己的位置，反而招禍。</div>
+  </div>
+</div>
+
+<!-- ── 六二 ── -->
+<div class="yao-row">
+  <div class="yao-lbl">六二</div>
+  <div class="yao-cell c-bad">
+    <div class="ci">剝床以辨，蔑貞，凶</div>
+    <div class="yi">剝落已到床的支撐骨架，仍不警醒、仍蔑視正道，凶。結構性損傷已在深層，若此時仍執著舊念，凶象加深。</div>
+  </div>
+  <div class="yao-cell c-good">
+    <div class="ci">休復，吉</div>
+    <div class="yi">安然休憩中自然復原，吉。是復卦中最美好的一爻——不強求、不急進，讓自己在安靜中回到正軌。這種「靜中自復」的方式，是復卦最高的智慧之一。</div>
+  </div>
+  <div class="yao-cell c-good">
+    <div class="ci">田獲三狐，得黃矢，貞吉</div>
+    <div class="yi">田獵中得三隻狐（清除小患），射中黃箭（持守中正），貞吉。解卦中段最實際的收穫爻——說明在解的過程中，一邊清理障礙、一邊持守中正，兩者並行才是吉。</div>
+  </div>
+</div>
+
+<!-- ── 初六/初九 ── -->
+<div class="yao-row">
+  <div class="yao-lbl yang-g" style="color:var(--moss)">初六<br>初九</div>
+  <div class="yao-cell c-bad">
+    <div class="ci">剝床以足，蔑貞，凶</div>
+    <div class="yi">從床腳基底開始剝落，若不警惕、蔑視正道，則凶。問題從根部起，若忽視、繼續舊方式，整體崩潰。是全卦的起點——也是最早的警示。</div>
+  </div>
+  <div class="yao-cell c-good">
+    <div class="ci">不遠復，無祗悔，元吉</div>
+    <div class="yi">迷途未遠即知返，無大悔，大吉。初九是唯一陽爻，是一陽來復的種子，全卦生機所在。「不遠」二字最溫柔——不是說你走得多遠，而是說：只要你回來，就是大吉。</div>
+  </div>
+  <div class="yao-cell c-neu">
+    <div class="ci">無咎</div>
+    <div class="yi">初九陽爻，解卦的起點。雷雨初動，萬物剛開始鬆解，一切都在剛剛開始，靜觀其變，無咎。這一爻的簡潔反而意味深長——解的開始，只需靜觀，不急著行動。</div>
+  </div>
+</div>
+
+<!-- ── 對比分析 ── -->
+<div class="sec">三卦結構深度對比</div>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>面向</th><th>山地剝（第23）</th><th>地雷復（第24）</th><th>雷水解（第40）</th></tr></thead>
+  <tbody>
+    <tr><td><strong>卦之本質</strong></td><td>陰極之象，清場剝落</td><td>陽始之象，一陽萌生</td><td>鬱結宣洩，緊繃鬆開</td></tr>
+    <tr><td><strong>能量方向</strong></td><td>向下、向內收縮</td><td>向上、由內升發</td><td>向外、橫向擴散流動</td></tr>
+    <tr><td><strong>主要情緒</strong></td><td>失去、壓迫、恐懼</td><td>初醒、安靜、謹慎</td><td>疲憊後的鬆、釋放、流動</td></tr>
+    <tr><td><strong>唯一陽爻位置</strong></td><td>上九——最頂，剩下的最後種子</td><td>初九——最底，剛萌芽的第一縷光</td><td>九二（下卦中陽）——解卦的動力核心</td></tr>
+    <tr><td><strong>關鍵正面爻</strong></td><td>六五「貫魚以宮人寵」——呈現不攻擊</td><td>初九「不遠復」——只要回來就是大吉</td><td>六五「君子維有解」——誠信化解一切</td></tr>
+    <tr><td><strong>最危險的爻</strong></td><td>六四「剝床以膚」——已傷及自身</td><td>上六「迷復」——復而不知返，錯失時機</td><td>六三「負且乘」——越位強佔招禍</td></tr>
+    <tr><td><strong>卦辭精神</strong></td><td>「不利有攸往」——止、守、不動</td><td>「出入無疾，朋來無咎」——小步回歸</td><td>「利有攸往」——可以行動，但選方向</td></tr>
+    <tr><td><strong>時間象徵</strong></td><td>深秋→冬至前，能量最低點</td><td>冬至後，一陽初生，最微但最真</td><td>春雷雨後，能量開始流動</td></tr>
+    <tr><td><strong>行動建議</strong></td><td>守、不出擊、保留碩果</td><td>小步回歸、安靜蓄積、不急展示</td><td>選方向行動、清除障礙、建立連結</td></tr>
+    <tr><td><strong>對應你的年份</strong></td><td>2026——壓力峰值，清場年</td><td>2026上九轉入→2027底/2028初</td><td>2024（外解）/ 2027（內解）</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ── 剝復的鏡像關係 ── -->
+<div class="sec">剝與復的特殊關係——鏡像對卦，一體兩面</div>
+<div class="mirror-box">
+  <div class="mb-side">
+    <div class="mb-gua">山地剝　第23卦</div>
+    <div class="mb-yao">唯一陽爻在上九（最頂）</div>
+    <div class="mb-ci">「碩果不食」<br>剩下最後一顆種子</div>
+  </div>
+  <div class="mb-arrow">⇄</div>
+  <div class="mb-side">
+    <div class="mb-gua">地雷復　第24卦</div>
+    <div class="mb-yao">唯一陽爻在初九（最底）</div>
+    <div class="mb-ci">「不遠復」<br>種子落地，第一縷光</div>
+  </div>
+</div>
+<div class="note">剝的上九陽爻，翻轉就是復的初九陽爻。同一顆種子——在剝中它還掛在樹上，是「不食之果」；在復中它已落入土中，成為「一陽來復」的第一縷嫩芽。冬至前夕是剝的最深，冬至翌日就是復的開始。它們是同一個夜晚的兩面。</div>
+
+<!-- ── 能量流動 ── -->
+<div class="sec">能量流動：四卦連動</div>
+<div class="flow">
+  <div class="flow-node">
+    <div class="fn-name">剝</div>
+    <div class="fn-tag" style="color:var(--rust)">陰極</div>
+    <div class="fn-desc">失去到底<br>守住碩果</div>
+  </div>
+  <div class="flow-arr">→</div>
+  <div class="flow-node">
+    <div class="fn-name">復</div>
+    <div class="fn-tag" style="color:var(--moss)">陽始</div>
+    <div class="fn-desc">一陽萌生<br>不遠即返</div>
+  </div>
+  <div class="flow-arr">→</div>
+  <div class="flow-node">
+    <div class="fn-name">解</div>
+    <div class="fn-tag" style="color:var(--amber)">鬆動</div>
+    <div class="fn-desc">能量流通<br>清除障礙</div>
+  </div>
+  <div class="flow-arr">→</div>
+  <div class="flow-node">
+    <div class="fn-name">泰</div>
+    <div class="fn-tag" style="color:var(--moss)">通達</div>
+    <div class="fn-desc">天地交感<br>厚積外顯</div>
+  </div>
+</div>
+<div class="note-amber">你的流年對應：剝（2026）→ 復（2027底/2028初的心理底層）→ 解（2027內解）→ 泰（2028）。這四卦不是獨立事件，而是同一條能量河流的四個段落。</div>
+
+<!-- ── 三卦對你的核心啟示 ── -->
+<div class="sec">三卦對你的核心啟示整合</div>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>卦</th><th>對你說的核心一句話</th><th>你需要做的一件事</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>山地剝</strong><br>2026</td>
+      <td>你不是在輸，你是在被清場——留下的，才是真正重要的。</td>
+      <td>守住那三顆碩果（孩子關係、學術根基、心理穩定性），其他的允許它剝落。</td>
+    </tr>
+    <tr>
+      <td><strong>地雷復</strong><br>2027底起</td>
+      <td>不遠復，無祗悔，元吉——不是說你走得多遠，而是說：只要你回來，就是大吉。</td>
+      <td>讓自己在安靜中慢慢回來，不強求速度，不急著展示復原。休復，吉。</td>
+    </tr>
+    <tr>
+      <td><strong>雷水解</strong><br>2024/2027</td>
+      <td>雷雨過後萬物解——那個「鬆」不需要你做什麼，它會自然來。</td>
+      <td>清除不必要的牽絆（解而拇），讓真實的連結有空間進來。選方向，然後動。</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="mantra">
+  <p>剝極則復，復則能解，解則通泰<br>
+  <span style="font-size:14px;opacity:.75;letter-spacing:.08em">這不是命運的安慰，是易經的結構邏輯</span></p>
+</div>
+
+</div>
+</body>
+</html>
