@@ -1,0 +1,37 @@
+{
+  "updated": "2026-05",
+  "categories": [
+    {
+      "id": "psychology",
+      "name": "心理學理論",
+      "icon": "🧠",
+      "files": [
+        {
+          "title": "心理學理論總覽",
+          "desc": "發展心理學、認知心理學、社會心理學等核心理論整理",
+          "path": "psychology_theories.html",
+          "icon": "🧠",
+          "tags": [
+            "發展心理學",
+            "認知",
+            "社會心理學"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uncategorized",
+      "name": "未分類",
+      "icon": "📄",
+      "files": [
+        {
+          "title": "三卦比較：山地剝 × 地雷復 × 雷水解",
+          "desc": "",
+          "path": "gua compare bo fu jie.html",
+          "icon": "📄",
+          "tags": []
+        }
+      ]
+    }
+  ]
+}
